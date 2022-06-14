@@ -70,44 +70,44 @@
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit prk">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit prk">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit prk', $permissions)) checked @endif data-permission="edit prk">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit prk', $permissions)) checked @endif data-permission="edit prk">
                                         @endif
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit skki">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit skki">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit skki', $permissions)) checked @endif data-permission="edit skki">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit skki', $permissions)) checked @endif data-permission="edit skki">
                                         @endif
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pengadaan">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pengadaan">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pengadaan', $permissions)) checked @endif data-permission="edit pengadaan">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pengadaan', $permissions)) checked @endif data-permission="edit pengadaan">
                                         @endif
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit kontrak">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit kontrak">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit kontrak', $permissions)) checked @endif data-permission="edit kontrak">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit kontrak', $permissions)) checked @endif data-permission="edit kontrak">
                                         @endif
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pelaksanaan">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pelaksanaan">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pelaksanaan', $permissions)) checked @endif data-permission="edit pelaksanaan">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pelaksanaan', $permissions)) checked @endif data-permission="edit pelaksanaan">
                                         @endif
                                     </td>
                                     <td>
                                         @if(in_array('super admin', $roles))
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pembayaran">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" checked disabled data-permission="edit pembayaran">
                                         @else
-                                        <input class="form-check-input" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pembayaran', $permissions)) checked @endif data-permission="edit pembayaran">
+                                        <input class="form-check-input update-role" type="checkbox" data-user-id="{{ $user->id }}" @if(in_array('edit pembayaran', $permissions)) checked @endif data-permission="edit pembayaran">
                                         @endif
                                     </td>
                                 </tr>
@@ -124,6 +124,16 @@
 
 @section('js')
 <script>
-    $('#adminTbl').DataTable()
+    $('#adminTbl').DataTable();
+    $('.update-role').on('click', async function() {
+        let user_id = $(this).data('user-id');
+        let permission = $(this).data('permission')
+
+        let data = {
+            permission: permission
+        }
+        const response = await axios.post(`/administrasi/user/${user_id}/update-role`, data)
+        console.log(response.data)
+    })
 </script>
 @endsection
