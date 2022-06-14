@@ -23,6 +23,7 @@ use App\Http\Controllers\PrkController;
 use App\Http\Controllers\SkkiController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -209,6 +210,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
         Route::group(['middleware' => ['role:super admin']], function() {
             Route::get('/admin', [AdminController::class, 'index'])->name('administrasi.admin');
             Route::post('/user/{user_id}/confirm', [AdminController::class, 'confirmUser']);
+            Route::post('/user/{user_id}/update-role', [AdminController::class, 'updateUserRole']);
         });
         
         Route::get('/profile', [UserController::class, 'index'])->name('administrasi.user');
@@ -247,3 +249,8 @@ Route::post('/email/verification-notification', function (Request $request) {
  
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'doForgotPassword'])->middleware('guest')->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword']);
+Route::post('/reset-password/{token}', [AuthController::class, 'doResetPassword']);

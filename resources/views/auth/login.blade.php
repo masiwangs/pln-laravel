@@ -33,6 +33,7 @@
             </form>
             <div class="text-center mt-5 text-lg fs-4">
                 <p class='text-gray-600'>Belum punya akun? <a href="/register" class="font-bold">Daftar</a>.</p>
+                <p class='text-gray-600'>Lupa password? <a href="/forgot-password" class="font-bold">Reset</a>.</p>
             </div>
         </div>
     </div>
