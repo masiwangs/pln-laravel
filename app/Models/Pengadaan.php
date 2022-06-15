@@ -21,6 +21,7 @@ class Pengadaan extends Model
         'nama',
         'status',
         'basket',
+        'skki_id'
     ];
 
     public function files() {

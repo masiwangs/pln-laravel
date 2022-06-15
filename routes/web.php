@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     Route::group(['prefix' => 'pengadaan'], function() {
         Route::get('/', [PengadaanController::class, 'index'])->name('pengadaan');
         Route::get('/baru', [PengadaanController::class, 'create']);
+        Route::post('/import', [PengadaanController::class, 'import']);
     
         Route::get('/{pengadaan_id}', [PengadaanController::class, 'show'])->name('pengadaan-detail');
         Route::post('/{pengadaan_id}', [PengadaanController::class, 'update']);

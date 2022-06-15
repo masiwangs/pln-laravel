@@ -6,6 +6,8 @@ use App\Models\{ BaseMaterial, Pengadaan, PengadaanWbsJasa, PengadaanJasa, Penga
 use Illuminate\Http\Request;
 use Illuminate\Support\{ Carbon, Str };
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class PengadaanController extends Controller
 {
@@ -29,6 +31,58 @@ class PengadaanController extends Controller
         ];
         Pengadaan::create($data);
         return redirect('/pengadaan/'.$data['id']);
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        $temp_id = Str::orderedUuid();
+
+        $input = $request->file->storeAs('temp', $temp_id.'.xlsx');
+        $file = public_path('storage/'.$input);
+        $source = IOFactory::load(str_replace('\\', '/', $file));
+        $worksheet = $source->getActiveSheet();
+        $total_row = $worksheet->getHighestRow();
+        for ($i=2; $i <= $total_row; $i++) { 
+            $nodin = $worksheet->getCell('A'.$i)->getValue();
+            $tgl_nodin = $worksheet->getCell('B'.$i)->getValue();
+            $pr = $worksheet->getCell('C'.$i)->getValue();
+            $nama = $worksheet->getCell('D'.$i)->getValue();
+            $prk_skki = $worksheet->getCell('E'.$i)->getValue();
+            $status = $worksheet->getCell('F'.$i)->getValue();
+            $basket = $worksheet->getCell('G'.$i)->getValue();
+
+            // cek apakah udah ada nomor prk sama
+            $exist = Pengadaan::select('id')->where('nodin', $nodin)->first();
+            $skki_exist = Skki::select('id')->where('prk_skki', $prk_skki)->first();
+
+            // cek tanggal
+            $parsedDate = Date::excelToDateTimeObject($tgl_nodin);
+            if($parsedDate) {
+                $tgl_nodin = $parsedDate;
+            } else {
+                $tgl_nodin = NULL;
+            }
+
+            if($nodin && !$exist && $skki_exist) {
+                $data = [
+                    'id' => Str::orderedUuid(),
+                    'nodin' => $nodin,
+                    'tgl_nodin' => $tgl_nodin,
+                    'pr' => $pr,
+                    'nama' => $nama,
+                    'status' => in_array($status, ['PROSES', 'TERKONTRAK']) ? $status : 'PROSES',
+                    'basket' => in_array($basket, [1, 2, 3]) ? $basket : 1,
+                    'skki_id' => $skki_exist->id
+                ];
+
+                Pengadaan::create($data);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function show($pengadaan_id) {
