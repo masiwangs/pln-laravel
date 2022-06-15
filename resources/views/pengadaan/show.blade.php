@@ -314,9 +314,6 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Batal</button>
-                        @if($skki->prk)
-                        <a href="/prk/{{ $skki->prk->id }}" class="btn btn-primary">Lihat PRK</a>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -397,9 +394,6 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Batal</button>
-                        @if($skki->prk)
-                        <a href="/prk/{{ $skki->prk->id }}" class="btn btn-primary">Lihat PRK</a>
-                        @endif
                     </div>
                 </div>
             </div>
