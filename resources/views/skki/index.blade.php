@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="prk01" class="table table-striped" style="width: 100%">
+                        <table id="basket1" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Nama Project</th>
@@ -57,13 +57,91 @@
             </div>
         </div>
     </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 2</h4>
+                    @can('edit skki')
+                    <a href="/skki/baru?basket=2" class="btn btn-primary">Baru</a>
+                    @endcan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket2" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nama Project</th>
+                                    <th>Nomor PRK</th>
+                                    <th>RAB Jasa</th>
+                                    <th>RAB Material</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_2'] as $skki)
+                                <tr>
+                                    <td>
+                                        <a href="/skki/{{ $skki->id }}">{{ $skki->skki ?? 'untitled' }}</a>
+                                    </td>
+                                    <td>{{ $skki->prk_id ? $skki->prk->prk : '' }}</td>
+                                    <td>Rp{{ number_format(collect($skki->jasas)->sum('harga'), 0, ',', '.') }}</td>
+                                    <td>Rp{{ number_format(collect($skki->materials)->map(function ($item){ return $item->jumlah * $item->harga; })->sum(), 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 3</h4>
+                    @can('edit skki')
+                    <a href="/skki/baru?basket=3" class="btn btn-primary">Baru</a>
+                    @endcan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket3" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nama Project</th>
+                                    <th>Nomor PRK</th>
+                                    <th>RAB Jasa</th>
+                                    <th>RAB Material</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_3'] as $skki)
+                                <tr>
+                                    <td>
+                                        <a href="/skki/{{ $skki->id }}">{{ $skki->skki ?? 'untitled' }}</a>
+                                    </td>
+                                    <td>{{ $skki->prk_id ? $skki->prk->prk : '' }}</td>
+                                    <td>Rp{{ number_format(collect($skki->jasas)->sum('harga'), 0, ',', '.') }}</td>
+                                    <td>Rp{{ number_format(collect($skki->materials)->map(function ($item){ return $item->jumlah * $item->harga; })->sum(), 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 @endsection
 
 @section('js')
 <script>
     $(document).ready(function () {
-        $('#prk01').DataTable();
+        $('#basket1').DataTable();
+        $('#basket2').DataTable();
+        $('#basket3').DataTable();
     });
 </script>
 @endsection

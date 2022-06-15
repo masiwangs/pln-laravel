@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="prk01" class="table table-striped" style="width: 100%">
+                        <table id="basket1" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Nomor Kontrak</th>
@@ -58,13 +58,93 @@
             </div>
         </div>
     </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 2</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket2" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nomor Kontrak</th>
+                                    <th>Tanggal Kontrak</th>
+                                    <th>Tanggal Awal</th>
+                                    <th>Tanggal Akhir</th>
+                                    <th>Pelaksana</th>
+                                    <th>Direksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_2'] as $kontrak)
+                                <tr>
+                                    <td>
+                                        <a href="/kontrak/{{ $kontrak->id }}">{{ $kontrak->nomor_kontrak ?? 'untitled' }}</a>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_kontrak)->format('j M Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_awal)->format('j M Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_akhir)->format('j M Y') }}</td>
+                                    <td>{{ \Str::upper($kontrak->pelaksana) }}</td>
+                                    <td>{{ $kontrak->direksi }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 3</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket3" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nomor Kontrak</th>
+                                    <th>Tanggal Kontrak</th>
+                                    <th>Tanggal Awal</th>
+                                    <th>Tanggal Akhir</th>
+                                    <th>Pelaksana</th>
+                                    <th>Direksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_3'] as $kontrak)
+                                <tr>
+                                    <td>
+                                        <a href="/kontrak/{{ $kontrak->id }}">{{ $kontrak->nomor_kontrak ?? 'untitled' }}</a>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_kontrak)->format('j M Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_awal)->format('j M Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::create($kontrak->tgl_akhir)->format('j M Y') }}</td>
+                                    <td>{{ \Str::upper($kontrak->pelaksana) }}</td>
+                                    <td>{{ $kontrak->direksi }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 @endsection
 
 @section('js')
 <script>
     $(document).ready(function () {
-        $('#prk01').DataTable();
+        $('#basket1').DataTable();
+        $('#basket2').DataTable();
+        $('#basket3').DataTable();
     });
 </script>
 @endsection

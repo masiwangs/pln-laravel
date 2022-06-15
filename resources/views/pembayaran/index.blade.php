@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" style="min-height: 250px">
-                        <table id="prk01" class="table table-striped" style="width: 100%">
+                        <table id="basket1" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Nomor Kontrak</th>
@@ -75,13 +75,127 @@
             </div>
         </div>
     </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 2</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" style="min-height: 250px">
+                        <table id="basket2" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nomor Kontrak</th>
+                                    <th>SPK</th>
+                                    <th>Tagihan</th>
+                                    <th>Terbayar</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(collect($pembayarans)->where('basket', 2) as $pembayaran)
+                                <tr>
+                                    <td>
+                                        <div class="dropdown">
+                                            <span class="text-primary" role="button" id="dropdown-{{ $pembayaran->id }}" data-bs-toggle="dropdown" aria-expanded="false">{{ $pembayaran->pelaksanaan->kontrak->nomor_kontrak }}</span>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="dropdown-{{ $pembayaran->id }}">
+                                                <li><a class="dropdown-item" href="/pembayaran/{{ $pembayaran->id }}"><i class="bi bi-eye"></i> Detail</a></li>
+                                                <li><a class="dropdown-item" href="/kontrak/{{ $pembayaran->pelaksanaan->kontrak_id }}"><i class="bi bi-file-earmark-check-fill"></i> Lihat Kontrak</a></li>
+                                                <li><a class="dropdown-item" href="/pelaksanaan/{{ $pembayaran->pelaksanaan_id }}"><i class="bi bi-cart"></i> Lihat Pelaksanaan</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>{{ $pembayaran->pelaksanaan->spk ? $pembayaran->pelaksanaan->spk : 'Belum ada SPK' }}</td>
+                                    <td>
+                                        @php
+                                            $tagihan_jasa = collect($pembayaran->pelaksanaan->jasas)->sum('harga');
+                                            $tagihan_material = collect($pembayaran->pelaksanaan->materials)->map(function ($item) {
+                                                if($item->transaksi == 'keluar') {
+                                                    return $item->jumlah*$item->harga;
+                                                } else {
+                                                    return -1*$item->jumlah*$item->harga;
+                                                }
+                                            })->sum();
+                                        @endphp
+                                        Rp{{ number_format($tagihan_jasa + $tagihan_material, 0, ',', '.') }}
+                                    </td>
+                                    <td>Rp{{ number_format(collect($pembayaran->tahapans)->sum('nominal'), 0, ',', '.') }}</td>
+                                    <td>{{ $pembayaran->status }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 3</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" style="min-height: 250px">
+                        <table id="basket3" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nomor Kontrak</th>
+                                    <th>SPK</th>
+                                    <th>Tagihan</th>
+                                    <th>Terbayar</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(collect($pembayarans)->where('basket', 3) as $pembayaran)
+                                <tr>
+                                    <td>
+                                        <div class="dropdown">
+                                            <span class="text-primary" role="button" id="dropdown-{{ $pembayaran->id }}" data-bs-toggle="dropdown" aria-expanded="false">{{ $pembayaran->pelaksanaan->kontrak->nomor_kontrak }}</span>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="dropdown-{{ $pembayaran->id }}">
+                                                <li><a class="dropdown-item" href="/pembayaran/{{ $pembayaran->id }}"><i class="bi bi-eye"></i> Detail</a></li>
+                                                <li><a class="dropdown-item" href="/kontrak/{{ $pembayaran->pelaksanaan->kontrak_id }}"><i class="bi bi-file-earmark-check-fill"></i> Lihat Kontrak</a></li>
+                                                <li><a class="dropdown-item" href="/pelaksanaan/{{ $pembayaran->pelaksanaan_id }}"><i class="bi bi-cart"></i> Lihat Pelaksanaan</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>{{ $pembayaran->pelaksanaan->spk ? $pembayaran->pelaksanaan->spk : 'Belum ada SPK' }}</td>
+                                    <td>
+                                        @php
+                                            $tagihan_jasa = collect($pembayaran->pelaksanaan->jasas)->sum('harga');
+                                            $tagihan_material = collect($pembayaran->pelaksanaan->materials)->map(function ($item) {
+                                                if($item->transaksi == 'keluar') {
+                                                    return $item->jumlah*$item->harga;
+                                                } else {
+                                                    return -1*$item->jumlah*$item->harga;
+                                                }
+                                            })->sum();
+                                        @endphp
+                                        Rp{{ number_format($tagihan_jasa + $tagihan_material, 0, ',', '.') }}
+                                    </td>
+                                    <td>Rp{{ number_format(collect($pembayaran->tahapans)->sum('nominal'), 0, ',', '.') }}</td>
+                                    <td>{{ $pembayaran->status }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 @endsection
 
 @section('js')
 <script>
     $(document).ready(function () {
-        $('#prk01').DataTable();
+        $('#basket1').DataTable();
+        $('#basket2').DataTable();
+        $('#basket3').DataTable();
     });
 </script>
 @endsection

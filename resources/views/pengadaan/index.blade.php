@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="prk01" class="table table-striped" style="width: 100%">
+                        <table id="basket1" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>Nodin</th>
@@ -61,13 +61,99 @@
             </div>
         </div>
     </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 2</h4>
+                    @can('edit pengadaan')
+                    <a href="/pengadaan/baru?basket=2" class="btn btn-primary">Baru</a>
+                    @endcan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket2" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nodin</th>
+                                    <th>Tanggal Nodin</th>
+                                    <th>Nama Project</th>
+                                    <th>RAB Jasa</th>
+                                    <th>RAB Material</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_2'] as $pengadaan)
+                                <tr>
+                                    <td>
+                                        <a href="/pengadaan/{{ $pengadaan->id }}">{{ $pengadaan->nodin ?? 'BELUM ADA NODIN' }}</a>
+                                    </td>
+                                    <td>{{ $pengadaan->tgl_nodin }}</td>
+                                    <td>{{ $pengadaan->nama }}</td>
+                                    <td>Rp{{ number_format(collect($pengadaan->jasas)->sum('harga'), 0, ',', '.') }}</td>
+                                    <td>Rp{{ number_format(collect($pengadaan->materials)->map(function ($item) {return $item->jumlah * $item->harga;})->sum(), 0, ',', '.') }}</td>
+                                    <td>{{ $pengadaan->status }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Basket 3</h4>
+                    @can('edit pengadaan')
+                    <a href="/pengadaan/baru?basket=3" class="btn btn-primary">Baru</a>
+                    @endcan
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basket3" class="table table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Nodin</th>
+                                    <th>Tanggal Nodin</th>
+                                    <th>Nama Project</th>
+                                    <th>RAB Jasa</th>
+                                    <th>RAB Material</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($result['basket_3'] as $pengadaan)
+                                <tr>
+                                    <td>
+                                        <a href="/pengadaan/{{ $pengadaan->id }}">{{ $pengadaan->nodin ?? 'BELUM ADA NODIN' }}</a>
+                                    </td>
+                                    <td>{{ $pengadaan->tgl_nodin }}</td>
+                                    <td>{{ $pengadaan->nama }}</td>
+                                    <td>Rp{{ number_format(collect($pengadaan->jasas)->sum('harga'), 0, ',', '.') }}</td>
+                                    <td>Rp{{ number_format(collect($pengadaan->materials)->map(function ($item) {return $item->jumlah * $item->harga;})->sum(), 0, ',', '.') }}</td>
+                                    <td>{{ $pengadaan->status }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 @endsection
 
 @section('js')
 <script>
     $(document).ready(function () {
-        $('#prk01').DataTable();
+        $('#basket1').DataTable();
+        $('#basket2').DataTable();
+        $('#basket3').DataTable();
     });
 </script>
 @endsection
