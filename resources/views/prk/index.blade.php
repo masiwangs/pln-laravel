@@ -18,9 +18,11 @@
             </div>
         </div>
     </div>
+    @can('edit prk')
     <div class="mb-4 d-flex justify-content-end">
         <button id="import" class="btn btn-success">Import dari excel</button>
     </div>
+    @endcan
     <!-- Basket 1 -->
     <section class="section">
         <div class="card">

@@ -18,9 +18,9 @@
             </div>
         </div>
     </div>
-    <div class="mb-4 d-flex justify-content-end">
+    @can('edit skki')<div class="mb-4 d-flex justify-content-end">
         <button id="import" class="btn btn-success">Import dari excel</button>
-    </div>
+    </div>@endcan
     <!-- Basket 1 -->
     <section class="section">
         <div class="card">
