@@ -6,6 +6,7 @@ use App\Models\{ BaseMaterial, Skki, SkkiFile, SkkiJasa, SkkiMaterial, Prk};
 use Illuminate\Http\Request;
 use Illuminate\Support\{ Carbon, Str };
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SkkiController extends Controller
 {
@@ -29,6 +30,52 @@ class SkkiController extends Controller
         ];
         Skki::create($data);
         return redirect('/skki/'.$data['id']);
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        $temp_id = Str::orderedUuid();
+
+        $input = $request->file->storeAs('temp', $temp_id.'.xlsx');
+        $file = public_path('storage/'.$input);
+        $source = IOFactory::load(str_replace('\\', '/', $file));
+        $worksheet = $source->getActiveSheet();
+        $total_row = $worksheet->getHighestRow();
+        for ($i=2; $i <= $total_row; $i++) { 
+            $skki = $worksheet->getCell('A'.$i)->getValue();
+            $prk = $worksheet->getCell('B'.$i)->getValue();
+            $prk_skki = $worksheet->getCell('C'.$i)->getValue();
+            $wbs_jasa = $worksheet->getCell('D'.$i)->getValue();
+            $wbs_material = $worksheet->getCell('E'.$i)->getValue();
+            $basket = $worksheet->getCell('F'.$i)->getValue();
+
+            // cek apakah udah ada nomor prk sama
+            $exist = Skki::select('id')->where('prk_skki', $prk_skki)->first();
+            $prk_exist = Prk::select('id')->where('prk', $prk)->first();
+
+
+            $test_arr = [];
+            if($skki && $prk && !$exist && $prk_exist) {
+                $data = [
+                    'id' => Str::orderedUuid(),
+                    'skki' => $skki,
+                    'prk_skki' => $prk_skki,
+                    'wbs_jasa' => $wbs_jasa,
+                    'wbs_material' => $wbs_material,
+                    'prk_id' => $prk_exist->id,
+                    'basket' => in_array($basket, [1, 2, 3]) ? $basket : 1
+                ];
+
+                array_push($test_arr, $data);
+
+                Skki::create($data);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function show($id) {

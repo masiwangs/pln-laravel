@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     Route::group(['prefix' => 'skki'], function() {
         Route::get('/', [SkkiController::class, 'index'])->name('skki');
         Route::get('/baru', [SkkiController::class, 'create']);
+        Route::post('/import', [SkkiController::class, 'import']);
     
         Route::get('/{skki_id}', [SkkiController::class, 'show'])->name('skki-detail');
         Route::post('/{skki_id}', [SkkiController::class, 'update']);
