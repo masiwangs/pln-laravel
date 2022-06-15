@@ -6,6 +6,8 @@ use App\Models\{ BaseMaterial, Kontrak, KontrakJasa, KontrakMaterial, Pengadaan,
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class KontrakController extends Controller
 {
@@ -97,6 +99,73 @@ class KontrakController extends Controller
             'message' => 'success',
             'done_at' => Carbon::now()
         ]); 
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        $temp_id = Str::orderedUuid();
+
+        $input = $request->file->storeAs('temp', $temp_id.'.xlsx');
+        $file = public_path('storage/'.$input);
+        $source = IOFactory::load(str_replace('\\', '/', $file));
+        $worksheet = $source->getActiveSheet();
+        $total_row = $worksheet->getHighestRow();
+        for ($i=2; $i <= $total_row; $i++) { 
+            $nomor_kontrak = $worksheet->getCell('A'.$i)->getValue();
+            $nodin = $worksheet->getCell('B'.$i)->getValue();
+            $tgl_kontrak = $worksheet->getCell('C'.$i)->getValue();
+            $tgl_awal = $worksheet->getCell('D'.$i)->getValue();
+            $tgl_akhir = $worksheet->getCell('E'.$i)->getValue();
+            $pelaksana = $worksheet->getCell('F'.$i)->getValue();
+            $direksi = $worksheet->getCell('G'.$i)->getValue();
+            $versi_amandemen = $worksheet->getCell('H'.$i)->getValue();
+            $basket = $worksheet->getCell('I'.$i)->getValue();
+
+            // cek apakah udah ada nomor prk sama
+            $exist = Kontrak::select('id')->where('nomor_kontrak', $nomor_kontrak)->first();
+            $pengadaan_exist = Pengadaan::select('id')->where('nodin', $nodin)->first();
+            // cek tanggal
+            $parsedDateTglKontrak = Date::excelToDateTimeObject($tgl_kontrak);
+            $parsedDateTglAwal = Date::excelToDateTimeObject($tgl_awal);
+            $parsedDateTglAkhir = Date::excelToDateTimeObject($tgl_akhir);
+            if($parsedDateTglKontrak) {
+                $tgl_kontrak = $parsedDateTglKontrak;
+            } else {
+                $tgl_kontrak = NULL;
+            }
+            if($parsedDateTglAwal) {
+                $tgl_awal = $parsedDateTglAwal;
+            } else {
+                $tgl_awal = NULL;
+            }
+            if($parsedDateTglAkhir) {
+                $tgl_akhir = $parsedDateTglAkhir;
+            } else {
+                $tgl_akhir = NULL;
+            }
+
+            if($nomor_kontrak && !$exist && $pengadaan_exist) {
+                $data = [
+                    'id' => Str::orderedUuid(),
+                    'nomor_kontrak' => $nomor_kontrak,
+                    'tgl_kontrak' => $tgl_kontrak,
+                    'tgl_awal' => $tgl_awal,
+                    'tgl_akhir' => $tgl_akhir,
+                    'pelaksana' => $pelaksana,
+                    'direksi' => strtoupper($direksi),
+                    'versi_amandemen' => $versi_amandemen,
+                    'basket' => in_array($basket, [1, 2, 3]) ? $basket : 1,
+                    'pengadaan_id' => $pengadaan_exist->id
+                ];
+
+                Kontrak::create($data);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function show($kontrak_id) {

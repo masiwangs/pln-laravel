@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     Route::group(['prefix' => 'kontrak'], function() {
         Route::get('/', [KontrakController::class, 'index'])->name('kontrak');
         Route::post('/', [KontrakController::class, 'store']);
+        Route::post('/import', [KontrakController::class, 'import']);
     
         Route::get('/{kontrak_id}', [KontrakController::class, 'show'])->name('kontrak-detail');
         Route::post('/{kontrak_id}', [KontrakController::class, 'update']);
