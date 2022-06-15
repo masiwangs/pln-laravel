@@ -254,3 +254,4 @@ Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->middl
 Route::post('/forgot-password', [AuthController::class, 'doForgotPassword'])->middleware('guest')->name('password.email');
 Route::get('/reset-password/{token}', [AuthController::class, 'resetPassword']);
 Route::post('/reset-password/{token}', [AuthController::class, 'doResetPassword']);
+Route::post('/logout', [AuthController::class,'logout'])->middleware('auth')->name('logout');

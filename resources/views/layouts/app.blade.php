@@ -156,6 +156,14 @@
                                 <span>Profil Anda</span>
                             </a>
                         </li>
+                        @if(auth()->check())
+                        <li class="sidebar-item">
+                            <a id="logout" href="javascript:void(0);" class='sidebar-link'>
+                                <i class="bi bi-power text-danger"></i>
+                                <span class="text-danger">Keluar</span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
@@ -184,6 +192,12 @@
     <script src="/assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="/assets/js/config/axios-config.js"></script>
+    <script>
+        $('#logout').on('click', async function() {
+            const response = await axios.post('/logout')
+            window.location.href = '/'
+        })
+    </script>
     @yield('js')
 </body>
 
