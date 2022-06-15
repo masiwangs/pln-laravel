@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         Auth::attempt([
             'email' => $data['email'], 
-            'password' => $data['password']
+            'password' => $request->password
         ]);
 
         return redirect()->route('verification.notice');
