@@ -194,8 +194,8 @@
     <script src="/assets/js/config/axios-config.js"></script>
     <script>
         $('#logout').on('click', async function() {
-            const response = await axios.post('/logout')
-            window.location.href = '/'
+            await axios.post('/logout');
+            window.location.href = '/';
         })
     </script>
     @yield('js')
