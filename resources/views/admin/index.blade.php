@@ -127,13 +127,12 @@
     $('#adminTbl').DataTable();
     $('.update-role').on('click', async function() {
         let user_id = $(this).data('user-id');
-        let permission = $(this).data('permission')
+        let permission = $(this).data('permission');
 
         let data = {
             permission: permission
-        }
-        const response = await axios.post(`/administrasi/user/${user_id}/update-role`, data)
-        console.log(response.data)
+        };
+        await axios.post(`/administrasi/user/${user_id}/update-role`, data);
     })
 </script>
 @endsection
