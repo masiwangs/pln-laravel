@@ -180,7 +180,7 @@ function fileSaveCallback({data}) {
         <tr id="file-${data.id}">\
             <td>\
                 <p class="mb-0">${data.nama}</p>\
-                <small>${data.deskripsi.substr(0, 200)}</small>\
+                <small>${data.deskripsi ? data.deskripsi.substr(0, 200) : ''}</small>\
             </td>\
             <td>\
                 <div class="d-flex justify-content-end">\

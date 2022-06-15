@@ -334,7 +334,7 @@
 
 @section('js')
 <script src="/assets/js/services/base-materials.js?v={{ \Str::uuid() }}"></script>
-<script src="/assets/js/pages/prk/index.min.js?v={{ \Str::uuid() }}"></script>
-<script src="/assets/js/pages/prk/callback.min.js?v={{ \Str::uuid() }}"></script>
-<script src="/assets/js/pages/prk/services.min.js?v={{ \Str::uuid() }}"></script>
+<script src="/assets/js/pages/prk/index.js?v={{ \Str::uuid() }}"></script>
+<script src="/assets/js/pages/prk/callback.js?v={{ \Str::uuid() }}"></script>
+<script src="/assets/js/pages/prk/services.js?v={{ \Str::uuid() }}"></script>
 @endsection
