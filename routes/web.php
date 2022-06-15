@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     Route::group(['prefix' => 'prk'], function() {
         Route::get('/', [PrkController::class, 'index'])->name('prk');
         Route::get('/baru', [PrkController::class, 'create']);
+        Route::post('/import', [PrkController::class, 'import']);
         
         Route::get('/{prk_id}', [PrkController::class, 'show'])->name('prk-detail');
         Route::post('/{prk_id}', [PrkController::class, 'update']);

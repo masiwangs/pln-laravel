@@ -6,6 +6,7 @@ use App\Models\{ BaseMaterial, Prk, PrkFile, PrkJasa, PrkMaterial};
 use Illuminate\Http\Request;
 use Illuminate\Support\{ Carbon, Str };
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PrkController extends Controller
 {
@@ -30,6 +31,45 @@ class PrkController extends Controller
         ]);
 
         return redirect('/prk/'.$id);
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required'
+        ]);
+
+        $temp_id = Str::orderedUuid();
+
+        $input = $request->file->storeAs('temp', $temp_id.'.xlsx');
+        $file = public_path('storage/'.$input);
+        $source = IOFactory::load(str_replace('\\', '/', $file));
+        $worksheet = $source->getActiveSheet();
+        $total_row = $worksheet->getHighestRow();
+        for ($i=2; $i <= $total_row; $i++) { 
+            $nama_project = $worksheet->getCell('A'.$i)->getValue();
+            $prk = $worksheet->getCell('B'.$i)->getValue();
+            $lot = $worksheet->getCell('C'.$i)->getValue();
+            $prioritas = $worksheet->getCell('D'.$i)->getValue();
+            $basket = $worksheet->getCell('E'.$i)->getValue();
+
+            // cek apakah udah ada nomor prk sama
+            $exist = Prk::select('id')->where('prk', $prk)->first();
+
+            if($prk && !$exist) {
+                $data = [
+                    'id' => Str::orderedUuid(),
+                    'nama' => $nama_project,
+                    'prk' => $prk,
+                    'lot' => $lot,
+                    'prioritas' => $prioritas,
+                    'basket' => in_array($basket, [1, 2, 3]) ? $basket : 1
+                ];
+
+                Prk::create($data);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function show($id) {

@@ -18,6 +18,9 @@
             </div>
         </div>
     </div>
+    <div class="mb-4 d-flex justify-content-end">
+        <button id="import" class="btn btn-success">Import dari excel</button>
+    </div>
     <!-- Basket 1 -->
     <section class="section">
         <div class="card">
@@ -133,6 +136,28 @@
             </div>
         </div>
     </section>
+
+    <div id="importModal" class="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="mb-4">Import dari Excel</h5>
+                    <form action="/prk/import" method="POST" class="mb-4" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="">File</label>
+                            <input type="file" class="form-control" name="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                            <small>Template import PRK dapat didownload <a href="/assets/template/import_prk_template.xlsx" target="_blank">disini</a>.</small>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -143,5 +168,9 @@
         $('#basket2').DataTable();
         $('#basket3').DataTable();
     });
+
+    $('#import').on('click', function() {
+        $('#importModal').modal('show')
+    })
 </script>
 @endsection
