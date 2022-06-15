@@ -29,7 +29,7 @@
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active"><a href="/">Dashboard</a></li>
                     </ol>
                 </nav>
             </div>
@@ -46,10 +46,10 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Basket</span>
                                 <select name="basket" id="" class="form-control">
-                                    <option value="SEMUA">SEMUA</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
+                                    <option value="SEMUA" @if(!(\Request::query('basket'))) selected @endif>SEMUA</option>
+                                    <option value="1" @if(\Request::query('basket') == 1) selected @endif>1</option>
+                                    <option value="2" @if(\Request::query('basket') == 2) selected @endif>2</option>
+                                    <option value="3" @if(\Request::query('basket') == 3) selected @endif>3</option>
                                 </select>
                             </div>
                         </div>
