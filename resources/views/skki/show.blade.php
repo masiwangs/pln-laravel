@@ -394,7 +394,6 @@
             </div>
         </div>
     </div>
-    @endcan
     {{-- file modal --}}
     <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
