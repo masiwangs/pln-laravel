@@ -113,15 +113,17 @@ function materialModalOpenCallback(type, data = null) {
 // on base material id change
 function baseMaterialIDChangeCallback(val, materials) {
     $('#materialNormalisasiMessageContainer').hide()
-    if(val.length > 0) {
-        let selectedMaterial = materials.filter(el => el.id == val)
-        if(selectedMaterial.length > 0) {
-            $('#selectedMaterialNormalisasi').text(selectedMaterial[0].normalisasi)
-            $('#materialNormalisasiMessageContainer').show()
-            $('input[name=material_nama]').val(selectedMaterial[0].nama);
-            $('textarea[name=material_deskripsi]').val(selectedMaterial[0].deskripsi);
-            $('input[name=material_satuan]').val(selectedMaterial[0].satuan);
-            $('input[name=material_harga]').val(selectedMaterial[0].harga);
+    if(val) {
+        if(val.length > 0) {
+            let selectedMaterial = materials.filter(el => el.id == val)
+            if(selectedMaterial.length > 0) {
+                $('#selectedMaterialNormalisasi').text(selectedMaterial[0].normalisasi)
+                $('#materialNormalisasiMessageContainer').show()
+                $('input[name=material_nama]').val(selectedMaterial[0].nama);
+                $('textarea[name=material_deskripsi]').val(selectedMaterial[0].deskripsi);
+                $('input[name=material_satuan]').val(selectedMaterial[0].satuan);
+                $('input[name=material_harga]').val(selectedMaterial[0].harga);
+            }
         }
     }
 }

@@ -1,7 +1,11 @@
 function callbackBaseMaterial(materials) {
     materials.forEach(material => {
-        $('#materialList').append(`<option value=${material.id}>${material.normalisasi}: ${material.nama}`)
+        $('#materialSelect').append(`<option value=${material.id}>${material.normalisasi}: ${material.nama}`)
     });
+    $('#materialSelect').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $("#materialForm")
+    })
 }
 
 // ===== SKKI =====
@@ -105,8 +109,7 @@ function materialModalOpenCallback(type, data = null) {
             $('#materialModalLabel').text('Material Baru');
             $('#updateMaterialBtn').hide();
             $('#materialNormalisasiMessageContainer').hide();
-            $('input[name=base_material_id]').attr('disabled', false);
-            $('input[name=base_material_id]').val('');
+            $('select[name=base_material_id]').val('');
             $('input[name=material_nama]').val('');
             $('textarea[name=material_deskripsi]').val('');
             $('input[name=material_satuan]').val('');
@@ -122,7 +125,7 @@ function materialModalOpenCallback(type, data = null) {
             $('#materialNormalisasiMessageContainer').show()
             $('#selectedMaterialNormalisasi').text(data.normalisasi)
             $('input[name=material_id]').val(data.id);
-            $('input[name=base_material_id]').val(data.base_material_id)
+            $('select[name=base_material_id]').val(data.base_material_id).trigger('change');
             $('input[name=material_nama]').val(data.nama);
             $('input[name=material_satuan]').val(data.satuan);
             $('input[name=material_harga]').val(data.harga);
@@ -140,15 +143,17 @@ function materialModalOpenCallback(type, data = null) {
 // on base material id change
 function baseMaterialIDChangeCallback(val, materials) {
     $('#materialNormalisasiMessageContainer').hide()
-    if(val.length > 0) {
-        let selectedMaterial = materials.filter(el => el.id == val)
-        if(selectedMaterial.length > 0) {
-            $('#selectedMaterialNormalisasi').text(selectedMaterial[0].normalisasi)
-            $('#materialNormalisasiMessageContainer').show()
-            $('input[name=material_nama]').val(selectedMaterial[0].nama);
-            $('textarea[name=material_deskripsi]').val(selectedMaterial[0].deskripsi);
-            $('input[name=material_satuan]').val(selectedMaterial[0].satuan);
-            $('input[name=material_harga]').val(selectedMaterial[0].harga);
+    if(val) {
+        if(val.length > 0) {
+            let selectedMaterial = materials.filter(el => el.id == val)
+            if(selectedMaterial.length > 0) {
+                $('#selectedMaterialNormalisasi').text(selectedMaterial[0].normalisasi)
+                $('#materialNormalisasiMessageContainer').show()
+                $('input[name=material_nama]').val(selectedMaterial[0].nama);
+                $('textarea[name=material_deskripsi]').val(selectedMaterial[0].deskripsi);
+                $('input[name=material_satuan]').val(selectedMaterial[0].satuan);
+                $('input[name=material_harga]').val(selectedMaterial[0].harga);
+            }
         }
     }
 }
@@ -181,6 +186,7 @@ function materialSaveCallback({data}) {
 }
 // update
 function materialUpdateCallback({data}) {
+    console.log(data)
     $('#material-'+data.id).html(`\
         <td>${data.normalisasi}</td>\
         <td>${data.nama}</td>\
@@ -219,9 +225,10 @@ function materialImportFromPRKCallback({data}) {
                 </div>
             </td>\
         </tr>`)
-        $('#materialModal').modal('hide');
-        location.reload()
     })
+    $('#importMaterialPrkBtn').html('Import dari PRK')
+    $('#materialModal').modal('hide');
+    location.reload()
 }
 
 function materialShowFromPRKCallback() {

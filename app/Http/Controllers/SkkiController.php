@@ -218,10 +218,10 @@ class SkkiController extends Controller
         $data = [
             'id' => Str::orderedUuid(),
             'normalisasi' => $material->normalisasi,
-            'nama' => $material->nama,
-            'deskripsi' => $material->deskripsi,
-            'satuan' => $material->satuan,
-            'harga' => $material->harga,
+            'nama' => $request->material_nama,
+            'deskripsi' => $request->material_deskripsi,
+            'satuan' => $request->material_satuan,
+            'harga' => $request->material_harga,
             'jumlah' => $request->material_jumlah,
             'skki_id' => $skki_id,
             'base_material_id' => $material->id
@@ -252,15 +252,15 @@ class SkkiController extends Controller
         $material = SkkiMaterial::find($material_id);
 
         $data = [
-            'id' => Str::orderedUuid(),
-            'normalisasi' => $material->normalisasi,
-            'nama' => $material->nama,
-            'deskripsi' => $material->deskripsi,
-            'satuan' => $material->satuan,
-            'harga' => $material->harga,
+            'id' => $material_id,
+            'normalisasi' => $base_material->normalisasi,
+            'nama' => $request->material_nama,
+            'deskripsi' => $request->material_deskripsi,
+            'satuan' => $request->material_satuan,
+            'harga' => $request->material_harga,
             'jumlah' => $request->material_jumlah,
             'skki_id' => $skki_id,
-            'base_material_id' => $material->id
+            'base_material_id' => $base_material->id
         ];
 
         $material->update($data);

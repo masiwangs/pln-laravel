@@ -11,7 +11,12 @@ $(document).ready(async function() {
 
     // get base material
     materials = await getBaseMaterials();
-    callbackBaseMaterial(materials);
+    // callbackBaseMaterial(materials);
+
+    $('#materialSelect').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $("#materialForm")
+    })
 })
 
 // ===== SKKI =====
@@ -55,6 +60,7 @@ $('#deleteJasaBtn').on('click', function() {
 
 // import jasa dari prk
 $('#importJasaPrkBtn').on('click', function() {
+    $(this).html('Loading..')
     jasaImportFromPRKService(skki_id, jasaImportFromPRKCallback)
 })
 
@@ -68,7 +74,7 @@ $('#showJasaPrkBtn').on('click', function() {
 $('#createMaterialBtn').on('click', function(){
     materialModalOpenCallback('create')
 });
-$('input[name=base_material_id]').on('change', async function() {
+$('#materialSelect').on('change', async function() {
     baseMaterialIDChangeCallback($(this).val(), materials)
 })
 $('#saveMaterialBtn').on('click', async function() {
@@ -105,7 +111,7 @@ $('#deleteMaterialBtn').on('click', function() {
 
 // import material from prk
 $('#importMaterialPrkBtn').on('click', function() {
-    $(this).text('loading...')
+    $(this).text('Loading...')
     materialImportFromPRKService(skki_id, materialImportFromPRKCallback);
 })
 // lihat material di prk

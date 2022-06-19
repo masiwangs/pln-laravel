@@ -312,25 +312,27 @@
                         <input type="hidden" name="material_id">
                         <div class="mb-3">
                             <label for="">Kode Normalisasi</label>
-                            <input type="text" list="materialList" class="form-control" name="base_material_id" placeholder="Masukkan kode normalisasi">
-                            <small id="materialNormalisasiMessageContainer" style="display: none"><i class="bi bi-info-circle"></i> Data diatas hanya id di database. Kode normalisasi sebenarnya adalah <strong id="selectedMaterialNormalisasi"></strong></small>
-                            <datalist id="materialList"></datalist>
+                            <select name="base_material_id" id="materialSelect">
+                                @foreach ($base_materials as $base_material)
+                                <option value="{{ $base_material->id }}">{{ $base_material->normalisasi }} - {{ $base_material->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="">Nama Material</label>
-                            <input type="text" class="form-control" disabled name="material_nama" placeholder="Masukkan nama material">
+                            <input type="text" class="form-control" name="material_nama" placeholder="Masukkan nama material">
                         </div>
                         <div class="mb-3">
                             <label for="">Deskripsi</label>
-                            <textarea name="material_deskripsi" disabled placeholder="Masukkan deskripsi material" class="form-control" id="" rows="2"></textarea>
+                            <textarea name="material_deskripsi" placeholder="Masukkan deskripsi material" class="form-control" id="" rows="2"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="">Satuan</label>
-                            <input type="text" class="form-control" disabled name="material_satuan" placeholder="Masukkan satuan">
+                            <input type="text" class="form-control" name="material_satuan" placeholder="Masukkan satuan">
                         </div>
                         <div class="mb-3">
                             <label for="">Harga</label>
-                            <input type="text" class="form-control" disabled name="material_harga" placeholder="Masukkan harga material">
+                            <input type="text" class="form-control" name="material_harga" placeholder="Masukkan harga material">
                         </div>
                         <div class="mb-3">
                             <label for="">Jumlah</label>
@@ -349,7 +351,7 @@
     @endcan
     {{-- Material di PRK modal --}}
     <div class="modal fade" id="materialPrkModal" tabindex="-1" aria-labelledby="materialPrkModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">

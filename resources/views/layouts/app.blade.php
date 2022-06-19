@@ -18,6 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <style>
         html, body {
             font-family: 'DM Sans', sans-serif;
@@ -32,12 +34,8 @@
             font-weight: 500
         }
         .form-control, .form-select {
-            border-radius: 2rem;
             background-color: #0000000a;
             color: #000000de
-        }
-        .btn {
-            border-radius: 2rem
         }
         th {
             font-size: 12px;
@@ -67,9 +65,6 @@
         }
         .text-muted {
             color: #9E9E9E!important
-        }
-        .input-group-text{
-            border-radius: 2rem 0 0 2rem;
         }
     </style>
 </head>
@@ -192,6 +187,7 @@
     <script src="/assets/js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="/assets/js/config/axios-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script>
         $('#logout').on('click', async function() {
             await axios.post('/logout');
