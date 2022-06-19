@@ -98,6 +98,7 @@ function jasaImportFromWbsCallback({data}) {
             </td>\
         </tr>`)
     })
+    $('.import-jasa').attr('disabled', false)
 }
 // show jasa form wbs
 function jasaShowFromWbsCallback({data}) {
@@ -145,6 +146,7 @@ function materialImportFromWbsCallback({data}) {
             </td>\
         </tr>`)
     })
+    $('.import-material').attr('disabled', false)
 }
 
 function materialShowFromWbsCallback({data}) {

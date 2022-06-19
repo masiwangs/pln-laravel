@@ -74,6 +74,7 @@
                         <div class="form-group mb-3">
                             <label for="first-name-vertical">WBS Jasa</label>
                             <div id="wbsJasaContainer" class="mb-1">
+                                @if(count($pengadaan->wbs_jasas) > 0)
                                 @foreach ($pengadaan->wbs_jasas as $i => $wbs_jasa)
                                 <div id="wbs-jasa-{{ $wbs_jasa->id }}" class="d-flex mb-2">
                                     <input list="skkiList" type="text" id="first-name-vertical" class="form-control skki-field me-2" disabled value="{{ $wbs_jasa->wbs_jasa }}" placeholder="Masukkan nomor WBS Jasa">
@@ -82,19 +83,24 @@
                                     <button class="btn btn-danger delete-wbs-jasa" data-id={{ $wbs_jasa->id }}>Hapus</button>
                                 </div>
                                 @endforeach
+                                @else
+                                <em>Belum ada wbs jasa</em>
+                                @endif
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="first-name-vertical">WBS Jasa Baru</label>
-                            <input list="skkiList" type="text" id="first-name-vertical" class="form-control skki-field" name="wbs_jasa" value="" placeholder="Masukkan nomor WBS Jasa">
+                            <div class="d-flex">
+                                <select name="wbs_jasa" class="form-select" id="wbsJasaSelect">
+                                    @foreach ($skkis as $skki)
+                                    @if($skki->wbs_jasa)
+                                    <option value="{{ $skki->id }}">{{ $skki->wbs_jasa }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                <button id="addWbsJasa" class="btn btn-primary ms-2">Tambahkan</button>
+                            </div>
                         </div>
-                        <datalist id="skkiList">
-                            @foreach ($skkis as $skki)
-                            @if($skki->wbs_jasa)
-                            <option value="{{ $skki->id }}">{{ $skki->wbs_jasa }}</option>
-                            @endif
-                            @endforeach
-                        </datalist>
                     </div>
                     @endcan
 
@@ -162,15 +168,17 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="first-name-vertical">WBS Material Baru</label>
-                            <input list="skkiMaterialList" type="text" id="first-name-vertical" class="form-control skki-field" name="wbs_material" value="" placeholder="Masukkan nomor WBS Material">
+                            <div class="d-flex">
+                                <select name="wbs_material" class="form-select" id="wbsMaterialSelect">
+                                    @foreach ($skkis as $skki)
+                                    @if($skki->wbs_material)
+                                    <option value="{{ $skki->id }}">{{ $skki->wbs_material }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                <button id="addWbsMaterial" class="btn btn-primary ms-2">Tambahkan</button>
+                            </div>
                         </div>
-                        <datalist id="skkiMaterialList">
-                            @foreach ($skkis as $skki)
-                            @if($skki->wbs_material)
-                            <option value="{{ $skki->id }}">{{ $skki->wbs_material }}</option>
-                            @endif
-                            @endforeach
-                        </datalist>
                     </div>
                     <div class="mb-4">
                         <button id="createMaterialBtn" class="btn btn-primary">Baru</button>
@@ -370,7 +378,7 @@
 
     {{-- Material di SKKI modal --}}
     <div class="modal fade" id="materialSkkiModal" tabindex="-1" aria-labelledby="materialSkkiModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">

@@ -12,6 +12,15 @@ $(document).ready(async function() {
     // get base material
     materials = await getBaseMaterials();
     callbackBaseMaterial(materials);
+
+    $('#wbsMaterialSelect').select2({
+        theme: 'bootstrap-5',
+        containerCssClass: "w-100",
+    })
+    $('#wbsJasaSelect').select2({
+        theme: 'bootstrap-5',
+        containerCssClass: "w-100",
+    })
 })
 
 // ===== pengadaan =====
@@ -21,9 +30,9 @@ $('.pengadaan-field').on('change', async function() {
 })
 
 // ===== WBS JASA =====
-$('input[name=wbs_jasa]').on('change', async function() {
+$('#addWbsJasa').on('click', async function() {
     let data = {
-        wbs_jasa: $(this).val()
+        wbs_jasa: $('select[name=wbs_jasa]').val()
     }
     await jasaWbsSaveService(pengadaan_id, data, jasaWbsSaveCallback);
 })
@@ -64,6 +73,7 @@ $('#deleteJasaBtn').on('click', function() {
 
 // import jasa from wbs
 $(document).on('click', '.import-jasa', function() {
+    $('.import-jasa').attr('disabled', true)
     let data = {
         skki_id: $(this).data('skki-id')
     }
@@ -77,9 +87,9 @@ $(document).on('click', '.show-jasa', async function() {
 
 // ===== WBS MATERIAL=====
 // create
-$('input[name=wbs_material]').on('change', async function() {
+$('#addWbsMaterial').on('click', async function() {
     let data = {
-        wbs_material: $(this).val()
+        wbs_material: $('select[name=wbs_material]').val()
     }
     await materialWbsSaveService(pengadaan_id, data, materialWbsSaveCallback)
 })
@@ -89,6 +99,7 @@ $(document).on('click', '.delete-wbs-material', async function() {
 })
 // import material
 $(document).on('click', '.import-material', async function() {
+    $('.import-material').attr('disabled', true)
     let data = {
         skki_id: $(this).data('skki-id')
     }
