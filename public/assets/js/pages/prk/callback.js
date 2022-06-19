@@ -1,6 +1,7 @@
 function callbackBaseMaterial(materials) {
     materials.forEach(material => {
         $('#materialList').append(`<option value=${material.id}>${material.normalisasi}: ${material.nama}`)
+        $('#materialSelect').append(`<option value=${material.id}>${material.normalisasi}: ${material.nama}`)
     });
 }
 
@@ -75,7 +76,16 @@ function materialModalOpenCallback(type, data = null) {
     switch (type) {
         case 'create':
             $('#updateMaterialBtn').hide();
+            $('#saveMaterialBtn').show();
+            $('#updateMaterialBtn').hide();
             $('#materialModalLabel').text('Material Baru');
+            $('input[name=material_id]').val('');
+            $('select[name=base_material_id]').val('');
+            $('input[name=material_nama]').val('');
+            $('input[name=material_satuan]').val('');
+            $('input[name=material_harga]').val('');
+            $('input[name=material_jumlah]').val('');
+            $('textarea[name=material_deskripsi]').val('');
             $('#materialModal').modal('show');
             break;
         case 'update':
@@ -85,7 +95,7 @@ function materialModalOpenCallback(type, data = null) {
             $('#materialNormalisasiMessageContainer').show()
             $('#selectedMaterialNormalisasi').text(data.normalisasi)
             $('input[name=material_id]').val(data.id);
-            $('input[name=base_material_id]').val(data.base_material_id)
+            $('select[name=base_material_id]').val(data.base_material_id).trigger('change');
             $('input[name=material_nama]').val(data.nama);
             $('input[name=material_satuan]').val(data.satuan);
             $('input[name=material_harga]').val(data.harga);

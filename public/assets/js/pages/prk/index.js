@@ -12,6 +12,10 @@ $(document).ready(async function() {
     // get base material
     materials = await getBaseMaterials();
     callbackBaseMaterial(materials);
+    $('#materialSelect').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $("#materialForm")
+    })
 })
 
 // ===== PRK =====
@@ -57,7 +61,7 @@ $('#deleteJasaBtn').on('click', function() {
 $('#createMaterialBtn').on('click', function(){
     materialModalOpenCallback('create')
 });
-$('input[name=base_material_id]').on('change', async function() {
+$('select[name=base_material_id]').on('change', async function() {
     baseMaterialIDChangeCallback($(this).val(), materials)
 })
 $('#saveMaterialBtn').on('click', async function() {

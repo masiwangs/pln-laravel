@@ -201,11 +201,11 @@ class PrkController extends Controller
 
         $data = [
             'id' => $material_id,
-            'normalisasi' => $material->normalisasi,
-            'nama' => $material->nama,
-            'deskripsi' => $material->deskripsi,
-            'satuan' => $material->satuan,
-            'harga' => $material->harga,
+            'normalisasi' => $base_material->normalisasi,
+            'nama' => $request->material_nama,
+            'deskripsi' => $request->material_deskripsi,
+            'satuan' => $request->material_satuan,
+            'harga' => $request->material_harga,
             'jumlah' => $request->material_jumlah,
             'prk_id' => $prk_id,
             'base_material_id' => $base_material->id
@@ -229,15 +229,6 @@ class PrkController extends Controller
                 'success' => false,
                 'data' => '',
                 'message' => 'material not found',
-                'done_at' => Carbon::now()
-            ]);
-        }
-
-        if($material->jumlah !== $material->stok) {
-            return response()->json([
-                'success' => false,
-                'data' => '',
-                'message' => 'Material sudah digunakan di SKKI.',
                 'done_at' => Carbon::now()
             ]);
         }

@@ -61,7 +61,7 @@
                 <div class="card-body">
                     <div class="mb-4">
                         @can('edit prk')
-                        <button id="createJasaBtn" class="btn btn-primary">Baru</button>
+                        <button id="createJasaBtn" class="btn btn-primary">RAB Jasa Baru</button>
                         @endcan
                         {{-- <button class="btn btn-success">Import Excel</button> --}}
                     </div>
@@ -106,7 +106,7 @@
                 <div class="card-body">
                     @can('edit prk')
                     <div class="mb-4">
-                        <button id="createMaterialBtn" class="btn btn-primary">Baru</button>
+                        <button id="createMaterialBtn" class="btn btn-primary">RAB Material Baru</button>
                         {{-- <button class="btn btn-success">Import Excel</button> --}}
                     </div>
                     @endcan
@@ -242,25 +242,23 @@
                         <input type="hidden" name="material_id">
                         <div class="mb-3">
                             <label for="">Kode Normalisasi</label>
-                            <input type="text" list="materialList" class="form-control" name="base_material_id" placeholder="Masukkan kode normalisasi">
-                            <small id="materialNormalisasiMessageContainer" style="display: none"><i class="bi bi-info-circle"></i> Data diatas hanya id di database. Kode normalisasi sebenarnya adalah <strong id="selectedMaterialNormalisasi"></strong></small>
-                            <datalist id="materialList"></datalist>
+                            <select name="base_material_id" id="materialSelect"></select>
                         </div>
                         <div class="mb-3">
                             <label for="">Nama Material</label>
-                            <input type="text" class="form-control" disabled name="material_nama" placeholder="Masukkan nama material">
+                            <input type="text" class="form-control" name="material_nama" placeholder="Masukkan nama material">
                         </div>
                         <div class="mb-3">
                             <label for="">Deskripsi</label>
-                            <textarea name="material_deskripsi" disabled placeholder="Masukkan deskripsi material" class="form-control" id="" rows="2"></textarea>
+                            <textarea name="material_deskripsi" placeholder="Masukkan deskripsi material" class="form-control" id="" rows="2"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="">Satuan</label>
-                            <input type="text" class="form-control" disabled name="material_satuan" placeholder="Masukkan satuan">
+                            <input type="text" class="form-control" name="material_satuan" placeholder="Masukkan satuan">
                         </div>
                         <div class="mb-3">
                             <label for="">Harga</label>
-                            <input type="text" class="form-control" disabled name="material_harga" placeholder="Masukkan harga material">
+                            <input type="text" class="form-control" name="material_harga" placeholder="Masukkan harga material">
                         </div>
                         <div class="mb-3">
                             <label for="">Jumlah</label>
