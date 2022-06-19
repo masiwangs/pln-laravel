@@ -34,7 +34,7 @@
                     @endcan
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="min-height: 300px">
                         <table id="basket1" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
@@ -48,7 +48,15 @@
                                 @foreach($result['basket_1'] as $prk)
                                 <tr>
                                     <td>
-                                        <a href="/prk/{{ $prk->id }}">{{ $prk->nama ?? 'untitled' }}</a>
+                                        <div class="dropdown">
+                                            <span class="text-primary" type="button" id="dd3{{ $prk->id }}" data-bs-toggle="dropdown" aria-expanded="false">{{ $prk->nama ?? 'untitled' }}</span>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="dd3{{ $prk->id }}">
+                                                <li><a class="dropdown-item" href="/prk/{{ $prk->id }}">Detail</a></li>
+                                                @if($prk->hasSkki)
+                                                <li><a class="dropdown-item" href="/skki/{{ $prk->skki->id }}">Lihat SKKI</a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </td>
                                     <td>{{ $prk->prk }}</td>
                                     <td>Rp{{ number_format(collect($prk->jasas)->sum('harga'), 0, ',', '.') }}</td>
@@ -72,7 +80,7 @@
                     @endcan
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="min-height: 300px">
                         <table id="basket2" class="table table-striped" style="width: 100%">
                             <thead>
                                 <tr>
@@ -86,7 +94,15 @@
                                 @foreach($result['basket_2'] as $prk)
                                 <tr>
                                     <td>
-                                        <a href="/prk/{{ $prk->id }}">{{ $prk->nama ?? 'untitled' }}</a>
+                                        <div class="dropdown">
+                                            <span class="text-primary" type="button" id="dd3{{ $prk->id }}" data-bs-toggle="dropdown" aria-expanded="false">{{ $prk->nama ?? 'untitled' }}</span>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="dd3{{ $prk->id }}">
+                                                <li><a class="dropdown-item" href="/prk/{{ $prk->id }}">Detail</a></li>
+                                                @if($prk->hasSkki)
+                                                <li><a class="dropdown-item" href="/skki/{{ $prk->skki->id }}">Lihat SKKI</a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </td>
                                     <td>{{ $prk->prk }}</td>
                                     <td>Rp{{ number_format(collect($prk->jasas)->sum('harga'), 0, ',', '.') }}</td>
@@ -110,8 +126,8 @@
                     @endcan
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="basket3" class="table table-striped" style="width: 100%">
+                    <div class="table-responsive" style="min-height: 300px">
+                        <table id="basket3" class="table table-striped" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Nama Project</th>
@@ -124,7 +140,15 @@
                                 @foreach($result['basket_3'] as $prk)
                                 <tr>
                                     <td>
-                                        <a href="/prk/{{ $prk->id }}">{{ $prk->nama ?? 'untitled' }}</a>
+                                        <div class="dropdown">
+                                            <span class="text-primary" type="button" id="dd3{{ $prk->id }}" data-bs-toggle="dropdown" aria-expanded="false">{{ $prk->nama ?? 'untitled' }}</span>
+                                            <ul class="dropdown-menu shadow" aria-labelledby="dd3{{ $prk->id }}">
+                                                <li><a class="dropdown-item" href="/prk/{{ $prk->id }}">Detail</a></li>
+                                                @if($prk->hasSkki)
+                                                <li><a class="dropdown-item" href="/skki/{{ $prk->skki->id }}">Lihat SKKI</a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </td>
                                     <td>{{ $prk->prk }}</td>
                                     <td>Rp{{ number_format(collect($prk->jasas)->sum('harga'), 0, ',', '.') }}</td>
