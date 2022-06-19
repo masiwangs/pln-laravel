@@ -11,6 +11,11 @@
                 {{ \Session::get('message') }}
             </div>
             @endif
+            <div class="alert alert-info" role="alert">
+                <strong>Akun admin dummy:</strong><br/>
+                email: admin@monitoring.com<br/>
+                password: 123456
+            </div>
             <form action="/login" method="POST">
                 @csrf
                 <div class="mb-4">
