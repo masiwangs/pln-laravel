@@ -13,10 +13,15 @@ class UserController extends Controller
     }
 
     public function update(Request $request) {
+        $request->validate([
+            'name' => 'required'
+        ]);
+
         $user = User::find(auth()->id());
         $user->update([
             'name' => $request->name
         ]);
+        
         return redirect()->back()->with('successUpdate', true);
     }
 

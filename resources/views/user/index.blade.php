@@ -41,6 +41,9 @@
                             <div class="mb-3">
                                 <label class="form-label">Nama</label>
                                 <input type="text" name="name" class="form-control" value="{{ auth()->user()->name }}">
+                                @error('name')
+                                <div><small class="text-danger">{{ $message }}</small></div>
+                                @enderror
                             </div>
                         </div>
                     </div>
