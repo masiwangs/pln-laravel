@@ -6,20 +6,38 @@
         <div id="auth-left">
             <h1 class="auth-title">Masuk</h1>
             <p class="auth-subtitle mb-5">Masukkan data yang valid untuk masuk ke halaman Admin.</p>
-
+            @if(\Session::has('message'))
+            <div class="alert alert-danger" role="alert">
+                {{ \Session::get('message') }}
+            </div>
+            @endif
             <form action="/login" method="POST">
                 @csrf
-                <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" name="email" class="form-control form-control-lg" placeholder="Email">
-                    <div class="form-control-icon">
-                        <i class="bi bi-envelope"></i>
+                <div class="mb-4">
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="text" name="email" class="form-control form-control-lg" placeholder="Email">
+                        <div class="form-control-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
                     </div>
+                    @error('email')
+                    <div>
+                        <small class="text-danger">{{ $message }}</small>
+                    </div>
+                    @enderror
                 </div>
-                <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" name="password" class="form-control form-control-lg" placeholder="Password">
-                    <div class="form-control-icon">
-                        <i class="bi bi-shield-lock"></i>
+                <div class="mb-4">
+                    <div class="form-group position-relative has-icon-left">
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Password">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
                     </div>
+                    @error('password')
+                    <div>
+                        <small class="text-danger">{{ $message }}</small>
+                    </div>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <div class="form-check">

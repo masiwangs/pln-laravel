@@ -59,12 +59,14 @@ class AuthController extends Controller
             $remember = true;
         }
         
-        Auth::attempt([
+        if(Auth::attempt([
             'email' => $request->email, 
             'password' => $request->password,
-        ], $remember);
+        ], $remember)) {
+            return redirect('/');
+        }
 
-        return redirect('/');
+        return redirect()->back()->with('message', 'Email atau password salah.');
     }
 
     public function forgotPassword() {
