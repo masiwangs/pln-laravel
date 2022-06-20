@@ -43,4 +43,8 @@ class Pengadaan extends Model
     public function wbs_materials() {
         return $this->hasMany(PengadaanWbsMaterial::class);
     }
+
+    public function kontrak() {
+        return $this->hasOne(Kontrak::class);
+    }
 }

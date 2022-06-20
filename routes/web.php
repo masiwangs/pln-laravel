@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     
         Route::get('/{pengadaan_id}', [PengadaanController::class, 'show'])->name('pengadaan-detail');
         Route::post('/{pengadaan_id}', [PengadaanController::class, 'update']);
+        Route::delete('/{pengadaan}', [PengadaanController::class, 'destroy']);
     
         Route::post('/{pengadaan_id}/file', [PengadaanController::class, 'fileStore']);
         Route::delete('/{pengadaan_id}/file/{file_id}', [PengadaanController::class, 'fileDestroy']);

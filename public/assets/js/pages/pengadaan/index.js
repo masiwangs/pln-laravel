@@ -177,3 +177,12 @@ $(document).on('click', '#saveKontrakBtn', async function() {
     let data = $('#kontrakForm').serialize()+`&pengadaan_id=${pengadaan_id}`
     await kontrakSaveService(data, kontrakSaveCallback)
 })
+
+// ===== DELETE PROJECT =====
+$('#deleteProject').on('click', function() {
+    deleteModalOpenCallback('project');
+})
+$('#deleteProjectBtn').on('click', function() {
+    $(this).attr('disabled', true);
+    deleteProjectService(pengadaan_id);
+})

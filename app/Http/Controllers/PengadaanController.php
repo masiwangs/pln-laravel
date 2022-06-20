@@ -117,6 +117,57 @@ class PengadaanController extends Controller
         ], 200);
     }
 
+    public function destroy(Pengadaan $pengadaan) {
+        // cek kontrak
+        if($pengadaan->kontrak) {
+            return response()->json([
+                'success' => false,
+                'data' => '',
+                'message' => 'Pengadaan ini sudah dipakai di Kontrak.',
+                'done_at' => Carbon::now()
+            ], 200);
+        }
+
+        // hapus wbs jasa
+        if($pengadaan->wbs_jasas) {
+            foreach ($pengadaan->wbs_jasas as $wbs_jasa) {
+                $wbs_jasa->delete();
+            }
+        }
+        // hapus wbs material
+        if($pengadaan->wbs_materials) {
+            foreach ($pengadaan->wbs_materials as $wbs_material) {
+                $wbs_material->delete();
+            }
+        }
+        // hapus jasa
+        if($pengadaan->jasas) {
+            foreach ($pengadaan->jasas as $jasa) {
+                $jasa->delete();
+            }
+        }
+        // hapus material
+        if($pengadaan->materials) {
+            foreach ($pengadaan->materials as $material) {
+                $material->delete();
+            }
+        }
+        // hapus file
+        if($pengadaan->files) {
+            foreach ($pengadaan->files as $file) {
+                Storage::delete($file->url);
+                $file->delete();
+            }
+        }
+        // delete project
+        $pengadaan->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted',
+            'done_at' => Carbon::now(),
+        ]);
+    }
+
     public function jasaStore($pengadaan_id, Request $request) {
         $pengadaan = Pengadaan::find($pengadaan_id);
         if(!$pengadaan) {

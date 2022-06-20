@@ -87,3 +87,14 @@ async function kontrakSaveService(data, callback) {
     const response = await axios.post('/kontrak', data)
     callback(response.data)
 }
+
+// ====== DELETE PROJECT =====
+async function deleteProjectService(pengadaan_id) {
+    const response = await axios.delete(`/pengadaan/${pengadaan_id}`);
+    $('#deleteProjectBtn').attr('disabled', false);
+    if(response.data.success) {
+        return window.location.href = '/pengadaan';
+    } 
+    
+    alert(response.data.message)
+}

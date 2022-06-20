@@ -263,7 +263,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-end">
-            @can('edit pengadaan')<button class="btn btn-danger me-2">Hapus Data</button>@endcan
+            @can('edit pengadaan')<button id="deleteProject" class="btn btn-danger me-2">Hapus Data</button>@endcan
             <button class="btn btn-primary">Selesai</button>
         </div>
     </section>
@@ -454,6 +454,7 @@
                         <button id="deleteJasaBtn" type="button" class="btn btn-danger">Hapus</button>
                         <button id="deleteMaterialBtn" type="button" class="btn btn-danger">Hapus</button>
                         <button id="deleteFileBtn" type="button" class="btn btn-danger">Hapus</button>
+                        <button id="deleteProjectBtn" type="button" class="btn btn-danger">Hapus</button>
                     </div>
                 </div>
             </div>
