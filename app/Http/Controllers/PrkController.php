@@ -88,6 +88,27 @@ class PrkController extends Controller
         ], 200);
     }
 
+    public function destroy(Prk $prk) {
+        // delete material & jasa & files
+        foreach ($prk->jasas as $jasa) {
+            $jasa->delete();
+        }
+        foreach ($prk->materials as $material) {
+            $material->delete();
+        }
+        foreach ($prk->files as $file) {
+            Storage::delete($file->url);
+            $file->delete();
+        }
+        // delete project
+        $prk->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted',
+            'done_at' => Carbon::now(),
+        ]);
+    }
+
     public function jasaStore($prk_id, Request $request) {
         $prk = Prk::find($prk_id);
         if(!$prk) {

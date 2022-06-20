@@ -45,3 +45,10 @@ async function fileDeleteService(prk_id, file_id, callback) {
     await axios.delete(`/prk/${prk_id}/file/${file_id}`)
     callback(file_id)
 }
+
+// ====== DELETE PROJECT =====
+async function deleteProjectService(prk_id) {
+    await axios.delete(`/prk/${prk_id}`);
+    $('#deleteProjectBtn').attr('disabled', false);
+    window.location.href = '/prk';
+}

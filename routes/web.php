@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
         
         Route::get('/{prk_id}', [PrkController::class, 'show'])->name('prk-detail');
         Route::post('/{prk_id}', [PrkController::class, 'update']);
+        Route::delete('/{prk}', [PrkController::class, 'destroy']);
         
         Route::post('/{prk_id}/file', [PrkController::class, 'fileStore']);
         Route::delete('/{prk_id}/file/{file_id}', [PrkController::class, 'fileDestroy']);
