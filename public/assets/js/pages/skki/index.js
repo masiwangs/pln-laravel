@@ -9,6 +9,19 @@ $(document).ready(async function() {
     $('#materialTbl').DataTable();
     $('#fileTbl').DataTable();
 
+    let prk = $('#hiddenPrk').val();
+    if(prk) {
+        $('#prkSelect2').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Pilih PRK'
+        }).val(prk).trigger('change')
+    } else {
+        $('#prkSelect2').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Pilih PRK'
+        })
+    }
+
     // get base material
     materials = await getBaseMaterials();
     // callbackBaseMaterial(materials);

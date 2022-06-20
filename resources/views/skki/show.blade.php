@@ -27,24 +27,19 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <input type="hidden" id="hiddenPrk" value="{{ $skki->prk->prk }}">
                         <form id="skkiForm" class="col-12 col-md-6 col-lg-5 col-xl-4">
                             <div class="mb-3">
                                 <p class="badge bg-success mb-0">Terakhir diupdate: <span id="lastUpdated">{{ $skki->updated_at }}</span></p>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="first-name-vertical">ID PRK</label>
-                                <input @cannot('edit skki') disabled @endcannot type="text" list="prkList" id="first-name-vertical" class="form-control skki-field" name="prk_id" value="{{ $skki->prk_id }}" placeholder="Masukkan nomor PRK">
-                                <small>*) Ketik untuk melihat saran</small>
-                                <datalist id="prkList">
-                                    @foreach ($prks as $prk)
-                                    <option value="{{ $prk->id }}">{{ $prk->prk }}: {{ $prk->nama }}</option>
-                                    @endforeach
-                                </datalist>
-                            </div>
-                            <div class="form-group mb-3">
                                 <label for="first-name-vertical">Nomor PRK</label>
-                                <input type="text" id="nomorPRK" disabled class="form-control skki-field" name="nama" value="{{ $skki->prk_id ? $skki->prk->prk : '' }}" placeholder="Masukkan nomor prk">
-                                <small>*) Ubah melalui ID PRK</small>
+                                <select @cannot('edit skki') disabled @endcannot class="skki-field form-control" name="prk" value="{{ $skki->prk->prk }}" placeholder="Masukkan nomor PRK" id="prkSelect2">
+                                    <option></option>
+                                    @foreach ($prks as $prk)
+                                    <option value="{{ $prk->prk }}">{{ $prk->prk }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="first-name-vertical">Nama Project</label>

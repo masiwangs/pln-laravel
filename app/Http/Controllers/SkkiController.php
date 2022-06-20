@@ -85,16 +85,40 @@ class SkkiController extends Controller
         return view('skki.show', compact('skki', 'prks', 'base_materials'));
     }
 
-    public function update($skki_id, Request $request) {
-        $skki = Skki::find($skki_id);
-        $skki->update($request->all());
-        $skki = Skki::with('prk')->find($skki_id);
-        return response()->json([
-            'success' => true,
-            'data' => $skki,
-            'message' => 'success',
-            'done_at' => Carbon::now()
-        ], 200);
+    public function update(Skki $skki, Request $request) {
+        $prk = Prk::where('prk', $request->prk)->first();
+        if(!$prk) {
+            return response()->json([
+                'success' => false,
+                'data' => '',
+                'message' => 'PRK tidak ditemukan.',
+                'done_at' => Carbon::now()
+            ], 200);
+        }
+
+        try{
+            $skki->update([
+                'prk_id' => $prk->id,
+                'skki' => $request->skki,
+                'prk_skki' => $request->prk_skki,
+                'wbs_jasa' => $request->wbs_jasa,
+                'wbs_material' => $request->wbs_material,
+            ]);
+            $skki = Skki::with('prk')->find($skki->id);
+            return response()->json([
+                'success' => true,
+                'data' => $skki,
+                'message' => 'success',
+                'done_at' => Carbon::now()
+            ], 200);
+        } catch(\Throwable $th) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Terjadi kesalahan.',
+                'data' => $th,
+                'done_at' => Carbon::now()
+            ], 200);
+        }
     }
 
     public function destroy(Skki $skki) {
@@ -109,21 +133,34 @@ class SkkiController extends Controller
             ]);
         }
         // delete material & jasa & files
-        foreach ($skki->jasas as $jasa) {
-            $jasa->delete();
+        if($skki->jasas) {
+            foreach ($skki->jasas as $jasa) {
+                $jasa->delete();
+            }
         }
-        foreach ($skki->materials as $material) {
-            $material->delete();
+        if($skki->materials) {
+            foreach ($skki->materials as $material) {
+                $material->delete();
+            }
         }
-        foreach ($skki->files as $file) {
-            Storage::delete($file->url);
-            $file->delete();
+        if($skki->files) {
+            foreach ($skki->files as $file) {
+                Storage::delete($file->url);
+                $file->delete();
+            }
         }
         // delete project
-        $skki->delete();
+        if($skki->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'deleted',
+                'done_at' => Carbon::now(),
+            ]);
+        }
+
         return response()->json([
-            'success' => true,
-            'message' => 'deleted',
+            'success' => false,
+            'message' => 'Terjadi kesalahan',
             'done_at' => Carbon::now(),
         ]);
     }
