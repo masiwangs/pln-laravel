@@ -89,6 +89,15 @@ class PrkController extends Controller
     }
 
     public function destroy(Prk $prk) {
+        // check skki
+        $skki = $prk->skki;
+        if($skki) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terdapat SKKI yang memakai PRK ini.',
+                'done_at' => Carbon::now(),
+            ]);
+        }
         // delete material & jasa & files
         foreach ($prk->jasas as $jasa) {
             $jasa->delete();
