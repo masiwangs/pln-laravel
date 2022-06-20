@@ -55,3 +55,14 @@ async function fileDeleteService(skki_id, file_id, callback) {
     await axios.delete(`/skki/${skki_id}/file/${file_id}`)
     callback(file_id)
 }
+
+// ====== DELETE PROJECT =====
+async function deleteProjectService(skki_id) {
+    const response = await axios.delete(`/skki/${skki_id}`);
+    $('#deleteProjectBtn').attr('disabled', false);
+    if(response.data.success) {
+        return window.location.href = '/skki';
+    } 
+    
+    alert(response.data.message)
+}

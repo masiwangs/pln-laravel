@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
     
         Route::get('/{skki_id}', [SkkiController::class, 'show'])->name('skki-detail');
         Route::post('/{skki_id}', [SkkiController::class, 'update']);
+        Route::delete('/{prk}', [SkkiController::class, 'destroy']);
     
         Route::post('/{skki_id}/file', [SkkiController::class, 'fileStore']);
         Route::delete('/{skki_id}/file/{file_id}', [SkkiController::class, 'fileDestroy']);

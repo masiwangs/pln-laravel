@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{ BaseMaterial, Skki, SkkiFile, SkkiJasa, SkkiMaterial, Prk};
+use App\Models\{ BaseMaterial, PengadaanWbsJasa, PengadaanWbsMaterial, Skki, SkkiFile, SkkiJasa, SkkiMaterial, Prk};
 use Illuminate\Http\Request;
 use Illuminate\Support\{ Carbon, Str };
 use Illuminate\Support\Facades\Storage;
@@ -95,6 +95,37 @@ class SkkiController extends Controller
             'message' => 'success',
             'done_at' => Carbon::now()
         ], 200);
+    }
+
+    public function destroy(Skki $skki) {
+        // check wbs
+        $wbs_jasas = PengadaanWbsJasa::where('skki_id', $skki->id)->first();
+        $wbs_materials = PengadaanWbsMaterial::where('skki_id', $skki->id)->first();
+        if($wbs_jasas or $wbs_materials) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terdapat Pengadaan yang memakai WBS Jasa atau Material SKKI ini.',
+                'done_at' => Carbon::now(),
+            ]);
+        }
+        // delete material & jasa & files
+        foreach ($skki->jasas as $jasa) {
+            $jasa->delete();
+        }
+        foreach ($skki->materials as $material) {
+            $material->delete();
+        }
+        foreach ($skki->files as $file) {
+            Storage::delete($file->url);
+            $file->delete();
+        }
+        // delete project
+        $skki->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted',
+            'done_at' => Carbon::now(),
+        ]);
     }
 
     public function jasaStore($skki_id, Request $request) {

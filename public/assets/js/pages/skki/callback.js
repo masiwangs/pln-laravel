@@ -265,12 +265,13 @@ function fileDeleteCallback(id) {
 }
 
 // ==== UNIVERSAL DELETE MODAL =====
-function deleteModalOpenCallback(type, id) {
+function deleteModalOpenCallback(type, id = null) {
     switch (type) {
         case 'jasa':
             $('#deleteModalLabel').text('Hapus Jasa');
             $('#deleteFileBtn').hide();
             $('#deleteJasaBtn').show();
+            $('#deleteProjectBtn').hide();
             $('#deleteMaterialBtn').hide();
             $('input[name=jasa_id]').val(id);
             $('#deleteModal').modal('show');
@@ -279,6 +280,7 @@ function deleteModalOpenCallback(type, id) {
             $('#deleteModalLabel').text('Hapus Material');
             $('#deleteFileBtn').hide();
             $('#deleteJasaBtn').hide();
+            $('#deleteProjectBtn').hide();
             $('#deleteMaterialBtn').show();
             $('input[name=material_id]').val(id);
             $('#deleteModal').modal('show');
@@ -287,8 +289,17 @@ function deleteModalOpenCallback(type, id) {
             $('#deleteModalLabel').text('Hapus File');
             $('#deleteFileBtn').show();
             $('#deleteJasaBtn').hide();
+            $('#deleteProjectBtn').hide();
             $('#deleteMaterialBtn').hide();
             $('input[name=file_id]').val(id);
+            $('#deleteModal').modal('show');
+            break;
+        case 'project':
+            $('#deleteModalLabel').text('Hapus Project');
+            $('#deleteFileBtn').hide();
+            $('#deleteJasaBtn').hide();
+            $('#deleteMaterialBtn').hide();
+            $('#deleteProjectBtn').show();
             $('#deleteModal').modal('show');
             break;
         default:

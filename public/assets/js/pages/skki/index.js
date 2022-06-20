@@ -138,3 +138,13 @@ $('#deleteFileBtn').on('click', function() {
     let file_id = $('input[name=file_id]').val();
     fileDeleteService(skki_id, file_id, fileDeleteCallback)
 });
+
+// ===== DELETE PROJECT =====
+$('#deleteProject').on('click', function() {
+    deleteModalOpenCallback('project');
+})
+
+$('#deleteProjectBtn').on('click', function() {
+    $(this).attr('disabled', true);
+    deleteProjectService(skki_id);
+})
