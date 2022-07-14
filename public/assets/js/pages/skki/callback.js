@@ -7,7 +7,61 @@ function callbackBaseMaterial(materials) {
         dropdownParent: $("#materialForm")
     })
 }
-
+// ===== DAFTAR PRK =====
+function addPrkCallback({data}) {
+    $('#prkTable>tbody').append(`
+        <tr id="prk-${data.id}">
+            <td>${data.prk}</td>
+            <td>${data.nama}</td>
+            <td>Rp${new Intl.NumberFormat('id-ID').format(data.rab_jasa)}</td>
+            <td>Rp${new Intl.NumberFormat('id-ID').format(data.rab_material)}</td>
+            <td>
+                <button class="btn btn-danger deletePrk" data-id="${ prk.id }">Hapus</button>
+            </td>
+        </tr>
+    `)
+}
+function deletePrkCallback({prk}) {
+    $(`#prk-${prk}`).hide();
+}
+function importJasaPrkCallback({data}) {
+    data.forEach(jasa => {
+        $('#jasaTbl>tbody').append(`
+            <tr id="jasa-${ jasa.id }">
+                <td>${ jasa.nama }</td>
+                <td>Rp${ new Intl.NumberFormat('id-ID').format(jasa.harga) }</td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-warning me-2 editJasaBtn" data-id="${ jasa.id }" data-nama="${ jasa.nama }" data-harga="${ jasa.harga }">Edit</button>
+                        <button class="btn btn-danger deleteJasaBtn" data-id="${ jasa.id }">Hapus</button>
+                    </div>
+                </td>
+            </tr>
+        `)
+    })
+}
+function importMaterialPrkCallback({data}) {
+    data.forEach(material => {
+        $('#materialTbl>tbody').append(`
+            <tr id="material-${ material.id }">
+                <td>${ material.normalisasi }</td>
+                <td>${ material.nama }</td>
+                <td>${ material.satuan }</td>
+                <td>Rp${ new Intl.NumberFormat('id-ID').format(material.harga) }</td>
+                <td>${ material.jumlah }</td>
+                <td>Rp${ new Intl.NumberFormat('id-ID').format(material.jumlah * material.harga) }</td>
+                @can('edit skki')
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-warning me-2 editMaterialBtn" data-id="${ material.id }" data-normalisasi="${ material.normalisasi }" data-nama="${ material.nama }" data-satuan="${ material.satuan }" data-harga="${ material.harga }" data-jumlah="${ material.jumlah }" data-stok="${ material.stok }" data-base-material-id="${ material.base_material_id }" data-deskripsi="${ material.deskripsi }">Edit</button>
+                        <button class="btn btn-danger deleteMaterialBtn" data-id="${ material.id }">Hapus</button>
+                    </div>
+                </td>
+                @endcan
+            </tr>
+        `)
+    })
+}
 // ===== SKKI =====
 function callbackSKKIChange({data}) {
     $('#nomorSkki').text(data.skki);

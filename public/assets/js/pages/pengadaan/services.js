@@ -1,6 +1,12 @@
 async function updatepengadaan(pengadaan_id, data, callback) {
     const response = await axios.post(`/pengadaan/${pengadaan_id}`, data)
-    callback(response.data)
+    if(response.data.success) {
+        callback(response.data)
+    } else {
+        if(confirm(response.data.message)){
+            window.location.reload();  
+        }
+    }
 }
 
 // ===== WBS JASA =====

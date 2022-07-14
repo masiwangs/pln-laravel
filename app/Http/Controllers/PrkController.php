@@ -51,6 +51,7 @@ class PrkController extends Controller
             $lot = $worksheet->getCell('C'.$i)->getValue();
             $prioritas = $worksheet->getCell('D'.$i)->getValue();
             $basket = $worksheet->getCell('E'.$i)->getValue();
+            $jasa = $worksheet->getCell('F'.$i)->getValue();
 
             // cek apakah udah ada nomor prk sama
             $exist = Prk::select('id')->where('prk', $prk)->first();
@@ -66,6 +67,13 @@ class PrkController extends Controller
                 ];
 
                 Prk::create($data);
+
+                PrkJasa::create([
+                    'id' => Str::orderedUuid(),
+                    'nama' => $nama_project,
+                    'harga' => $jasa,
+                    'prk_id' => $data['id']
+                ]);
             }
         }
 

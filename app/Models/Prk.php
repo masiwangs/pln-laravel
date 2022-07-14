@@ -20,7 +20,9 @@ class Prk extends Model
         'prk',
         'lot',
         'prioritas',
-        'basket'
+        'anggaran_jasa',
+        'basket',
+        'skki_id'
     ];
 
     public function files() {
@@ -36,13 +38,14 @@ class Prk extends Model
     }
 
     public function skki() {
-        return $this->hasOne(Skki::class);
+        return $this->belongsTo(Skki::class);
     }
 
-    public function getHasSkkiAttribute() {
-        if($this->skki) {
-            return true;
-        }
-        return false;
+    public function getRabJasaAttribute() {
+        return collect($this->jasas)->sum('harga');
+    }
+
+    public function getRabMaterialAttribute() {
+        return collect($this->materials)->map(function ($item){return $item->jumlah*$item->harga;} )->sum();
     }
 }

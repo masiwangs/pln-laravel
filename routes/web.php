@@ -69,6 +69,11 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
         Route::get('/{skki_id}', [SkkiController::class, 'show'])->name('skki-detail');
         Route::post('/{skki}', [SkkiController::class, 'update']);
         Route::delete('/{skki}', [SkkiController::class, 'destroy']);
+
+        Route::post('/{skki}/prk', [SkkiController::class, 'addPrk']);
+        Route::delete('/{skki}/prk/{prk}', [SkkiController::class, 'deletePrk']);
+        Route::post('/{skki}/prk/{prk}/import-jasa', [SkkiController::class, 'importJasaPrk']);
+        Route::post('/{skki}/prk/{prk}/import-material', [SkkiController::class, 'importMaterialPrk']);
     
         Route::post('/{skki_id}/file', [SkkiController::class, 'fileStore']);
         Route::delete('/{skki_id}/file/{file_id}', [SkkiController::class, 'fileDestroy']);
@@ -91,7 +96,7 @@ Route::group(['middleware' => ['auth', 'verified', 'verified-by-admin']], functi
         Route::post('/import', [PengadaanController::class, 'import']);
     
         Route::get('/{pengadaan_id}', [PengadaanController::class, 'show'])->name('pengadaan-detail');
-        Route::post('/{pengadaan_id}', [PengadaanController::class, 'update']);
+        Route::post('/{pengadaan}', [PengadaanController::class, 'update']);
         Route::delete('/{pengadaan}', [PengadaanController::class, 'destroy']);
     
         Route::post('/{pengadaan_id}/file', [PengadaanController::class, 'fileStore']);

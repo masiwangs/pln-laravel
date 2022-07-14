@@ -9,18 +9,10 @@ $(document).ready(async function() {
     $('#materialTbl').DataTable();
     $('#fileTbl').DataTable();
 
-    let prk = $('#hiddenPrk').val();
-    if(prk) {
-        $('#prkSelect2').select2({
-            theme: 'bootstrap-5',
-            placeholder: 'Pilih PRK'
-        }).val(prk).trigger('change')
-    } else {
-        $('#prkSelect2').select2({
-            theme: 'bootstrap-5',
-            placeholder: 'Pilih PRK'
-        })
-    }
+    $('#prkSelect2').select2({
+        theme: 'bootstrap-5',
+        placeholder: 'Pilih PRK'
+    }).val('').trigger('change')
 
     // get base material
     materials = await getBaseMaterials();
@@ -37,6 +29,32 @@ $(document).ready(async function() {
 $('.skki-field').on('change', async function() {
     let data = $('#skkiForm').serialize()+`&wbs_jasa=${$('input[name=wbs_jasa]').val()}&wbs_material=${$('input[name=wbs_material]').val()}`;
     await skkiUpdateService(skki_id, data, callbackSKKIChange)
+})
+
+// ===== DETAIL PRK =====
+// create
+$('#addPrk').on('click', async function() {
+    let prk = $('select[name=prk]').val();
+    await addPrkService(skki_id, {prk: prk}, addPrkCallback);
+})
+
+$(document).on('click', '.deletePrk', function() {
+    let id = $(this).data('id');
+    deletePrkService(skki_id, {prk: id}, deletePrkCallback)
+})
+
+$(document).on('click', '.importJasaPrk', function() {
+    let data = {
+        prk: $(this).data('id')
+    }
+    importJasaPrkService(skki_id, data, importJasaPrkCallback)
+})
+
+$(document).on('click', '.importMaterialPrk', function() {
+    let data = {
+        prk: $(this).data('id')
+    }
+    importMaterialPrkService(skki_id, data, importMaterialPrkCallback)
 })
 
 // ===== JASA =====

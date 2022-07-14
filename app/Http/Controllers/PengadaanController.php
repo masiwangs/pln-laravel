@@ -92,9 +92,7 @@ class PengadaanController extends Controller
         return view('pengadaan.show', compact('pengadaan', 'skkis', 'base_materials'));
     }
 
-    public function update($pengadaan_id, Request $request) {
-        $pengadaan = Pengadaan::find($pengadaan_id);
-        
+    public function update(Pengadaan $pengadaan, Request $request) {
         $data = [
             'id' => $pengadaan->id,
             'nodin' => $request->nodin,
@@ -103,7 +101,18 @@ class PengadaanController extends Controller
             'nama' => $request->nama,
             'basket' => $pengadaan->basket
         ];
+        // kalo udah ada kontrak, ga boleh diubah ke proses
         if($request->status == 'PROSES') {
+            if($pengadaan->kontrak) {
+                return response()->json([
+                    'success' => false,
+                    'data' => '',
+                    'message' => 'Pengadaan sudah digunakan di Kontrak. Hapus Kontrak terlebih dahulu untuk mengubah status ke "PROSES".',
+                    'field' => 'status',
+                    'done_at' => Carbon::now()
+                ], 200);
+            }
+
             $data['status'] = $request->status;
         }
         

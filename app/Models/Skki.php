@@ -23,8 +23,8 @@ class Skki extends Model
         'basket',
     ];
 
-    public function prk() {
-        return $this->belongsTo(Prk::class);
+    public function prks() {
+        return $this->hasMany(Prk::class);
     }
 
     public function files() {
@@ -37,5 +37,13 @@ class Skki extends Model
 
     public function materials() {
         return $this->hasMany(SkkiMaterial::class);
+    }
+
+    public function getWbsJasaAttribute() {
+        return collect($this->jasas)->sum('harga');
+    }
+
+    public function getWbsMaterialAttribute() {
+        return collect($this->materials)->map(function ($item){return $item->jumlah*$item->harga;} )->sum();
     }
 }

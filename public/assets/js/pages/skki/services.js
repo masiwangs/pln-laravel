@@ -3,6 +3,45 @@ async function skkiUpdateService(skki_id, data, callback) {
     callback(response.data)
 }
 
+// ===== PRK =====
+function addPrkService(skki_id, data, callback) {
+    axios.post(`/skki/${skki_id}/prk`, data)
+    .then(res => {
+        callback(res.data)
+    })
+    .catch(e => {
+        alert(e.response.data.message)
+    })
+}
+function deletePrkService(skki_id, data, callback) {
+    axios.delete(`/skki/${skki_id}/prk/${data.prk}`, data)
+    .then(res => {
+        callback(data)
+    })
+    .catch(e => {
+        alert(e.response.data.message)
+    })
+}
+function importJasaPrkService(skki_id, data, callback) {
+    axios.post(`/skki/${skki_id}/prk/${data.prk}/import-jasa`)
+    .then(res => {
+        // callback(res.data)
+        location.reload()
+    })
+    .catch(e => {
+        alert(e.response.data.message)
+    })
+}
+function importMaterialPrkService(skki_id, data, callback) {
+    axios.post(`/skki/${skki_id}/prk/${data.prk}/import-material`)
+    .then(res => {
+        // callback(res.data)
+        location.reload()
+    })
+    .catch(e => {
+        alert(e.response.data.message)
+    })
+}
 // ===== JASA =====
 async function jasaSaveService(skki_id, data, callback) {
     const response = await axios.post(`/skki/${skki_id}/jasa`, data)

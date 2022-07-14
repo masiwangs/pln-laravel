@@ -50,7 +50,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="first-name-vertical">Status</label>
-                                <select @cannot('edit pengadaan') disabled @endcannot class="form-select pengadaan-field" name="status" aria-label="Default select example">
+                                <select autocomplete="off" @cannot('edit pengadaan') disabled @endcannot class="form-select pengadaan-field" name="status" aria-label="Default select example">
                                     <option>Pilih status</option>
                                     <option value="PROSES" @if($pengadaan->status == 'PROSES') selected @endif>PROSES</option>
                                     <option value="TERKONTRAK" @if($pengadaan->status == 'TERKONTRAK') selected @endif>TERKONTRAK</option>

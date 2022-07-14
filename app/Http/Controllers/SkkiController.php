@@ -121,6 +121,107 @@ class SkkiController extends Controller
         }
     }
 
+    public function addPrk(Skki $skki, Request $request) {
+        $prk = Prk::find($request->prk);
+        if(!$prk) {
+            return response()->json([
+                'success' => false,
+                'message' => 'PRK tidak ditemukan.',
+                'done_at' => Carbon::now()
+            ], 404);
+        }
+
+        if($prk->skki_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'PRK sudah ditambahkan di SKKI.',
+                'data' => '',
+                'done_at' => Carbon::now()
+            ], 400);
+        }
+
+        $prk->update([
+            'skki_id' => $skki->id
+        ]);
+
+        $result = [
+            'id' => $prk->id,
+            'nama' => $prk->nama,
+            'prk' => $prk->prk,
+            'rab_jasa' => $prk->rab_jasa,
+            'rab_material' => $prk->rab_material
+        ];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses.',
+            'data' => $result,
+            'done_at' => Carbon::now()
+        ], 200);
+    }
+
+    public function deletePrk(Skki $skki, Prk $prk) {
+        $prk->update([
+            'skki_id' => ''
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses.',
+            'data' => '',
+            'done_at' => Carbon::now()
+        ], 200);
+    }
+
+    public function importJasaPrk(Skki $skki, Prk $prk) {
+        $result = [];
+        foreach($prk->jasas as $jasa) {
+            $data = [
+                'id' => Str::orderedUuid(),
+                'nama' => $jasa->nama,
+                'harga' => $jasa->harga,
+                'skki_id' => $skki->id
+            ];
+            $skkiJasa = SkkiJasa::create($data);
+
+            array_push($result, $data);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses.',
+            'data' => $result,
+            'done_at' => Carbon::now()
+        ], 200);
+    }
+
+    public function importMaterialPrk(Skki $skki, Prk $prk) {
+        $result = [];
+        foreach($prk->materials as $material) {
+            $data = [
+                'id' => Str::orderedUuid(),
+                'normalisasi' => $material->normalisasi,
+                'nama' => $material->nama,
+                'deskripsi' => $material->deskripsi,
+                'satuan' => $material->satuan,
+                'harga' => $material->harga,
+                'jumlah' => $material->jumlah,
+                'base_material_id' => $material->base_material_id,
+                'skki_id' => $skki->id,
+            ];
+            $skkiMaterial = SkkiMaterial::create($data);
+
+            array_push($result, $data);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sukses.',
+            'data' => $result,
+            'done_at' => Carbon::now()
+        ], 200);
+    }
+
     public function destroy(Skki $skki) {
         // check wbs
         $wbs_jasas = PengadaanWbsJasa::where('skki_id', $skki->id)->first();

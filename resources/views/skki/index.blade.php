@@ -38,8 +38,8 @@
                                 <tr>
                                     <th>Nama Project</th>
                                     <th>Nomor PRK</th>
-                                    <th>RAB Jasa</th>
-                                    <th>RAB Material</th>
+                                    <th>WBS Jasa</th>
+                                    <th>WBS Material</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,8 +76,8 @@
                                 <tr>
                                     <th>Nama Project</th>
                                     <th>Nomor PRK</th>
-                                    <th>RAB Jasa</th>
-                                    <th>RAB Material</th>
+                                    <th>WBS Jasa</th>
+                                    <th>WBS Material</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,8 +114,8 @@
                                 <tr>
                                     <th>Nama Project</th>
                                     <th>Nomor PRK</th>
-                                    <th>RAB Jasa</th>
-                                    <th>RAB Material</th>
+                                    <th>WBS Jasa</th>
+                                    <th>WBS Material</th>
                                 </tr>
                             </thead>
                             <tbody>

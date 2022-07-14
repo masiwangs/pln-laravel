@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3 id="nomorSkki">{{ $skki->skki ?? '{Nomor SKKI}' }}</h3>
-                <p id="namaPrk" class="text-subtitle text-muted">{{ $skki->prk->nama ?? '{Nama Project}' }}</p>
+                <p id="namaPrk" class="text-subtitle text-muted">{{ $skki->nama ?? '{Nama Project}' }}</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -26,35 +26,98 @@
                     <h4 class="card-title">Informasi Project</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <input type="hidden" id="hiddenPrk" value="{{ $skki->prk->prk }}">
-                        <form id="skkiForm" class="col-12 col-md-6 col-lg-5 col-xl-4">
+                    <form id="skkiForm" class="row">
+                        <div class="col-12 col-md-6 col-lg-5 col-xl-4">
                             <div class="mb-3">
                                 <p class="badge bg-success mb-0">Terakhir diupdate: <span id="lastUpdated">{{ $skki->updated_at }}</span></p>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="first-name-vertical">Nomor PRK</label>
-                                <select @cannot('edit skki') disabled @endcannot class="skki-field form-control" name="prk" value="{{ $skki->prk->prk }}" placeholder="Masukkan nomor PRK" id="prkSelect2">
-                                    <option></option>
-                                    @foreach ($prks as $prk)
-                                    <option value="{{ $prk->prk }}">{{ $prk->prk }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mb-3">
                                 <label for="first-name-vertical">Nama Project</label>
-                                <input type="text" id="namaProject" disabled class="form-control skki-field" name="nama" value="{{ $skki->prk_id ? $skki->prk->nama : '' }}" placeholder="Masukkan nama project">
-                                <small>*) Didapat dari PRK</small>
+                                <input type="text" id="namaProject" class="form-control skki-field" name="nama" value="" placeholder="Masukkan nama project">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="first-name-vertical">Nomor SKKI</label>
                                 <input @cannot('edit skki') disabled @endcannot type="text" id="first-name-vertical" class="form-control skki-field" name="skki" value="{{ $skki->skki }}" placeholder="Masukkan nomor SKKI">
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="first-name-vertical">Nomor PRK-SKKI</label>
-                                <input @cannot('edit skki') disabled @endcannot type="text" id="first-name-vertical" class="form-control skki-field" name="prk_skki" value="{{ $skki->prk_skki }}" placeholder="Masukkan nomor PRK-SKKI">
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label for="first-name-vertical">Nomor PRK-SKKI</label>
+                                    <input @cannot('edit skki') disabled @endcannot type="text" id="first-name-vertical" class="form-control skki-field" name="prk_skki" value="{{ $skki->prk_skki }}" placeholder="Masukkan nomor PRK-SKKI">
+                                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label for="first-name-vertical">WBS Jasa</label>
+                                    <input readonly type="text" class="form-control"value="Rp{{ number_format($skki->wbs_jasa, 0, ',', '.') }}" placeholder="WBS Jasa">
+                                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label for="first-name-vertical">WBS Material</label>
+                                    <input readonly type="text" class="form-control"value="Rp{{ number_format($skki->wbs_material, 0, ',', '.') }}" placeholder="WBS Material">
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{-- PRK kecil --}}
+        <div class="card mb-4">
+            <div class="card-content">
+                <div class="card-header d-flex justify-content-between">
+                    <h4 class="card-title">Daftar PRK</h4>
+                </div>
+                <div class="card-body table-responsive" style="min-height: 350px">
+                    <table id="prkTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>:</th>
+                                <th>Nomor PRK</th>
+                                <th>Nama Project</th>
+                                <th>RAB Jasa</th>
+                                <th>RAB Material</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($skki->prks as $prk)
+                            <tr id="prk-{{ $prk->id }}">
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-list"></i>
+                                        </a>
+                                        <ul class="dropdown-menu shadow" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <a class="dropdown-item importJasaPrk" href="javascript:void(0)" data-id="{{ $prk->id }}">Import Jasa</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item importMaterialPrk" href="javascript:void(0)" data-id="{{ $prk->id }}">Import Material</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" class="dropdown-item text-danger deletePrk" data-id="{{ $prk->id }}">Hapus</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>{{ $prk->prk }}</td>
+                                <td>{{ $prk->nama }}</td>
+                                <td>Rp{{ number_format($prk->rab_jasa, 0, ',', '.') }}</td>
+                                <td>Rp{{ number_format($prk->rab_material, 0, ',', '.') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="d-flex flex-row">
+                        <div class="flex-fill me-2">
+                            <select name="prk" id="prkSelect2" class="form-control">
+                                @foreach ($prks as $prkOption)
+                                    <option value="{{ $prkOption->id }}">{{ $prkOption->prk }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <button id="addPrk" class="btn btn-success">Tambah</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,14 +133,6 @@
                     @can('edit skki')
                     <div class="mb-4">
                         <button id="createJasaBtn" class="btn btn-primary">Baru</button>
-                        <button id="importJasaPrkBtn" class="btn btn-primary">Import dari PRK</button>
-                        <button id="showJasaPrkBtn" class="btn btn-primary">Lihat Jasa dari PRK</button>
-                    </div>
-                    <div class="mb-4">
-                        <div class="form-group mb-3">
-                            <label for="first-name-vertical">WBS Jasa</label>
-                            <input type="text" id="first-name-vertical" class="form-control skki-field" name="wbs_jasa" value="{{ $skki->wbs_jasa }}" placeholder="Masukkan nomor WBS jasa">
-                        </div>
                     </div>
                     @endcan
                     <div class="table-responsive">
@@ -123,14 +178,6 @@
                     @can('edit skki')
                     <div class="mb-4">
                         <button id="createMaterialBtn" class="btn btn-primary">Baru</button>
-                        <button id="importMaterialPrkBtn" class="btn btn-primary">Import dari PRK</button>
-                        <button id="showMaterialPrkBtn" class="btn btn-primary">Lihat Material di PRK</button>
-                    </div>
-                    <div class="mb-4">
-                        <div class="form-group mb-3">
-                            <label for="first-name-vertical">WBS Material</label>
-                            <input type="text" id="first-name-vertical" class="form-control skki-field" name="wbs_material" value="{{ $skki->wbs_material }}" placeholder="Masukkan nomor WBS material">
-                        </div>
                     </div>
                     @endcan
                     <div class="table-responsive">
